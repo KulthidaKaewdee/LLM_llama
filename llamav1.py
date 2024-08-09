@@ -1,5 +1,7 @@
 # รักษาความต่อเนื่องในการสนทนา
 import os
+import sys
+import time
 from groq import Groq
 
 os.environ['GROQ_API_KEY'] = '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'
@@ -13,11 +15,14 @@ def generate_content(messages):
     )
     return response
 
-conversation_history = []
+def print_slowly(text, delay=0.05):
+    for char in text:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(delay)
+    print() 
 
-# conversation_history = [
-#     {"role": "system", "content": "กรุณาตอบคำถามด้วยภาษาไทยหรือภาษาอังกฤษเท่านั้น"}
-# ]
+conversation_history = []
 
 try:
     while True:
@@ -34,9 +39,11 @@ try:
         
         conversation_history.append({"role": "assistant", "content": content})
         
-        print(content)
+        # print(content)
+        print_slowly(content)
 
 finally:
     # ลบประวัติการสนทนาเมื่อออกจากโปรแกรม
     conversation_history = []
     print('ลบประวัติเรียบร้อย')
+    print(conversation_history)
